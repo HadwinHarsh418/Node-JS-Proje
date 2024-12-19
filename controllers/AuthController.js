@@ -12,32 +12,46 @@ const register = (req, res, next) => {
         });
     }
 
-    bcrypt.hash(req.body.password, 10, function (err, hashPass) {
-        if (err) {
+    Register.findOne({ email: req.body.email }).then(response=>{
+        if(response){
             res.json({
-                error: err
+                status:200,
+                message:'Email Already Exists'
+            })
+        }else{
+            bcrypt.hash(req.body.password, 10, function (err, hashPass) {
+                if (err) {
+                    res.json({
+                        error: err
+                    })
+                }
+                let newUser = new Register({
+                    firstName: req.body.firstName,
+                    lastName: req.body.lastName,
+                    email: req.body.email,
+                    phone: req.body.phone,
+                    password: hashPass,
+                })
+        
+                newUser.save().then(response => {
+                    res.json({
+                        status: 200,
+                        message: 'User Register Successfully',
+                    });
+                    res.json({ status: 200, message: 'User Register Successfully' })
+                }).catch(error => {
+                    res.json({
+                        status: 500,
+                        message: 'An Error Occurred while checking the email',
+                        error: error.message
+                    });
+                })
             })
         }
-        let newUser = new Register({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            phone: req.body.phone,
-            password: hashPass,
-        })
-
-        newUser.save().then(response => {
-            res.json({
-                status: 200,
-                message: 'User Register Successfully',
-            });
-            res.json({ status: 200, message: 'User Register Successfully' })
-        }).catch(error => {
-            res.json({
-                status: 500,
-                message: 'An Error Occurred while checking the email',
-                error: error.message
-            });
+    }).catch(error=>{
+        res.json({
+            status:500,
+            message:'An Error Occured'
         })
     })
 
@@ -66,11 +80,13 @@ const login = (req, res, next) => {
                     })
                 }
                 if (result) {
-                    let token = jwt.sign({ name: response.firstName }, 'verySecretValue', { expiresIn: '1h' });
+                    let token = jwt.sign({ name: response.firstName }, process.env.ACCESS_JWT_TOKEN_KEY, { expiresIn: process.env.ACCESS_JWT_TOKEN_KEY_TIME });
+                    let refresh_Token = jwt.sign({ name: response.firstName }, process.env.REFRESH_TOKEN_KEY, { expiresIn: process.env.REFRESH_TOKEN_KEY_TIME });
                     res.json({
                         status: 200,
                         message: 'User Login Successfull',
-                        token
+                        token,
+                        refresh_Token
                     })
                 }
                 else {
@@ -100,4 +116,27 @@ const login = (req, res, next) => {
 
 }
 
-module.exports = { register, login }
+
+const refreshToken = (req, res, next) => {
+    console.log(req.body.refreshToken);
+    
+    const refreshToken = req.body.refreshToken
+    jwt.verify(refreshToken,process.env.REFRESH_TOKEN_KEY,function (err,result){
+        if(err){
+            res.json({
+                error:err,
+                message:'Refresh Token not Verified'
+            })
+        }else{
+            let token = jwt.sign({name:result.name},process.env.ACCESS_JWT_TOKEN_KEY,{ expiresIn: process.env.ACCESS_JWT_TOKEN_KEY_TIME});
+            res.json({
+                status:200,
+                token,
+                refreshToken,
+                message:'Token Updated'
+            })
+        }
+    })
+}
+
+module.exports = { register, login , refreshToken }

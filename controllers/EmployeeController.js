@@ -4,17 +4,33 @@ const Employee = require('../models/Employee');
 // Function to get all employees from the database
 const getAllEmployee = (req, res, next) => {
     // Query to find all employees
-    Employee.find()
+    if(req.query.page&&req.query.limit){
+        Employee.paginate({},{page:req.query.page,limit:req.query.limit})
         .then(response => {
-            // Sending the list of all employees as a JSON response
-            res.json({ response });
-        })
-        .catch(error => {
-            // Sending an error message if something goes wrong
-            res.json({
-                message: 'An Error Occured'
+                    // Sending the list of all employees as a JSON response
+                    res.json({ status:200,response,message:'Employee Data Fetched' });
+                })
+                .catch(error => {
+                    // Sending an error message if something goes wrong
+                    res.json({
+                        message: 'An Error Occured'
+                    });
+                });
+
+    }else{
+        Employee.find()
+            .then(response => {
+                // Sending the list of all employees as a JSON response
+                res.json({ response });
+            })
+            .catch(error => {
+                // Sending an error message if something goes wrong
+                res.json({
+                    message: 'An Error Occured'
+                });
             });
-        });
+
+    }
 };
 
 // Function to get an employee by their ID

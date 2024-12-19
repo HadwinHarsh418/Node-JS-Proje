@@ -3,8 +3,9 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const EmployeeRoutes = require('./routes/EmployeeRoute')
 const AuthRoutes = require('./routes/AuthRoute')
-
-mongoose.connect('mongodb://localhost:27017/newProject',{useNewUrlParser:true,useUnifiedTopology:true})
+const dotenv = require('dotenv')
+dotenv.config()
+mongoose.connect(process.env.DATA_BASE_URL,{useNewUrlParser:true,useUnifiedTopology:true})
 const db = mongoose.connection
 
 db.on('error',(err)=>{
