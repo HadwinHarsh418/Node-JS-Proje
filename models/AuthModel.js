@@ -7,6 +7,8 @@ const AuthRegisterSchema = new Schema({
     email:{type:String},
     phone:{type:String},
     password:{type:String},
+    isVerified:{type:Boolean},
+    otp:{type:Number}
     
 },{timestamps:true}
 )

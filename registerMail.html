@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Confirmation</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+
+    <div style="width:auto; margin: 0 auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h1 style="color: #333;">Welcome to My Pikachu World!</h1>
+        </div>
+
+        <div style="font-size: 16px; line-height: 1.6; color: #555;">
+            <p style="margin: 10px 0;text-align: center;">Thank you for registering with My Pikachu World! We're excited to have you on board.</p>
+            <p style="margin: 10px 0;"><strong>Username:</strong> {{username}}</p>
+            <p style="margin: 10px 0;"><strong>Email:</strong> {{email}}</p>
+            <p style="margin: 10px 0;"><strong>Registration Date:</strong> {{date}}</p>
+
+            <p style="margin: 10px 0;">To get started, please confirm your email address by clicking the link below:</p>
+            <p style="margin: 10px 0;">Your One Time Password To Verify Account Is : - {{otp}}</p>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="{{confirmationLink}}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;">Confirm Your Email</a>
+            </div>
+
+            <p style="margin: 10px 0;">If you did not sign up for an account, please disregard this email. For any questions or support, feel free to reach out to our team at <a href="mailto:[Support Email Address]" style="color: #007bff; text-decoration: none;">[Support Email Address]</a>.</p>
+
+            <p style="margin: 10px 0;">Thank you for joining My Pikachu! We're looking forward to helping you [mention product benefits or company mission].</p>
+        </div>
+
+        <div style="font-size: 12px;text-align: center; color: #888; margin-top: 20px;">
+            <p>Best regards,<br>The My Pikachu Team</p>
+            <p>[Your Contact Information]<br><a href="[Your Website URL]" style="color: #007bff; text-decoration: none;">Visit our website</a></p>
+        </div>
+    </div>
+
+</body>
+</html>

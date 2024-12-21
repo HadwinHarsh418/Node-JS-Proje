@@ -8,7 +8,7 @@ const employeeSchema = new Schema({
     desgignation:{type:String},
     email:{type:String},
     phone:{type:String},
-    age:{type:Number},
+    age:{type:Number}
 }, {timestamps:true})
 
 employeeSchema.plugin(Pagination)
